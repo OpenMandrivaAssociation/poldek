@@ -6,12 +6,13 @@
 Summary:	PLD RPM packages management helper tool
 Name:		%name
 Version:	0.20
-Release:	%mkrel 55556
+Release:	%mkrel 55557
 License:	GPL
 Group:		System/Configuration/Packaging
 Source0:	http://poldek.pld-linux.org/download/%{name}-%{version}.tar.bz2
 Patch0:     poldek-0.20-oldtag.patch
 Patch1:     poldek-0.20-sourcepackage.patch
+Patch2:     poldek-rpm-4.4.8.patch
 URL:		http://poldek.pld-linux.org/
 BuildRequires:	bzip2-devel
 BuildRequires:	rpm-devel
@@ -64,6 +65,7 @@ poldek library.
 %setup -q
 %patch0 -p0 -b .oldtag
 %patch1 -p0 -b .sourcepackage
+%patch2 -p0 -b .rpm-448
 
 %build
 %configure %{?_with_static:--enable-static}
