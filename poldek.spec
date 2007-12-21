@@ -22,6 +22,7 @@ BuildRequires:	zlib-devel
 BuildRequires:	pcre-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  db4-devel
+BuildRoot:	%_tmppath/%name-%version-%release-root
 
 %description
 poldek is an RPM package management tool which allows you to easily
