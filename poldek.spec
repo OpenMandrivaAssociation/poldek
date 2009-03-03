@@ -2,18 +2,22 @@
 %define major 0
 
 %define libname %mklibname %name %major
+%define develname %mklibname %name -d
 
 Summary:	PLD RPM packages management helper tool
 Name:		%name
 Version:	0.20
-Release:	%mkrel 55561
+Release:	%mkrel 55562
 License:	GPLv2
 Group:		System/Configuration/Packaging
+URL:		http://poldek.pld-linux.org/
 Source0:	http://poldek.pld-linux.org/download/%{name}-%{version}.tar.bz2
 Patch0:     poldek-0.20-oldtag.patch
 Patch1:     poldek-0.20-sourcepackage.patch
 Patch2:     poldek-rpm-4.4.8.patch
-URL:		http://poldek.pld-linux.org/
+Patch3:     poldek-0.20-fix-rpmlib-detection.patch
+Patch4:     poldek-0.20-fix-check-detection.patch
+Patch5:     poldek-0.20-fix-format-errors.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	rpm-devel
 BuildRequires:	openssl-devel
@@ -46,14 +50,14 @@ installation from scratch), upgrading, and removal.
 
 This package contain libraries from poldek
 
-%package -n %libname-devel
+%package -n %develname
 Summary: Development files from poldek
 Group: Development/Other
 Provides: %name-devel = %version-%release
-Provides: lib%name-devel = %version-%release
+Obsoletes:  develname %mklibname %name -d 0
 Requires: %libname = %version-%release
 
-%description -n %libname-devel
+%description -n %develname
 poldek is an RPM package management tool which allows you to easily
 perform package verification, installation (including system
 installation from scratch), upgrading, and removal.
@@ -66,16 +70,20 @@ poldek library.
 %patch0 -p0 -b .oldtag
 %patch1 -p0 -b .sourcepackage
 %patch2 -p0 -b .rpm-448
+%patch3 -p1 -b .rpmlib
+%patch4 -p1 -b .check
+%patch5 -p1 -b .format
 
 %build
-%configure %{?_with_static:--enable-static}
+autoreconf -f -i
+%configure2_5x %{?_with_static:--enable-static}
 %{__make} 
 
 %install
-rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}
+rm -rf %{buildroot}
+install -d %{buildroot}%{_sysconfdir}
 
-%{__make} install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install DESTDIR=%{buildroot}
 
 perl -pi -e 's/_distro\s+=\s+pld/_distro = %_vendor/' %buildroot/%_sysconfdir/%name/%name.conf
 
@@ -112,7 +120,7 @@ EOF
 %find_lang %{name}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %post
 %_install_info %name.info
@@ -129,7 +137,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %files -f %name.lang
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %doc README* *sample* NEWS TODO
 %dir %{_sysconfdir}/%{name}
 %attr(644,root,root) %config(noreplace) %{_sysconfdir}/%{name}/*
@@ -139,13 +147,13 @@ rm -rf $RPM_BUILD_ROOT
 %{_infodir}/poldek.*
 
 %files -n %libname
-%defattr(644,root,root,755)
+%defattr(-,root,root)
 %doc README* *sample* NEWS TODO
 %_libdir/*.so.*
 %_libdir/poldek
 
-%files -n %libname-devel
-%defattr(644,root,root,755)
+%files -n %develname
+%defattr(-,root,root)
 %doc README* *sample* NEWS TODO
 %_includedir/*
 %_libdir/*.a
