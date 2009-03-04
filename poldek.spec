@@ -3,6 +3,8 @@
 
 %define libname %mklibname %name %major
 %define develname %mklibname %name -d
+%define _disable_ld_as_needed 1
+%define _disable_ld_no_undefined 1
 
 Summary:	PLD RPM packages management helper tool
 Name:		%name
