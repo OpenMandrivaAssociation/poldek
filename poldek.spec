@@ -30,6 +30,7 @@ BuildRequires:	pcre-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  db4-devel
 BuildRequires:	gettext-devel
+BuildRequires:	libxml2-devel
 BuildRoot:	%_tmppath/%name-%version-%release-root
 
 %description
