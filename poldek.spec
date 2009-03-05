@@ -3,8 +3,6 @@
 
 %define libname %mklibname %name %major
 %define develname %mklibname %name -d
-%define _disable_ld_as_needed 1
-%define _disable_ld_no_undefined 1
 
 Summary:	PLD RPM packages management helper tool
 Name:		%name
@@ -20,6 +18,9 @@ Patch2:     poldek-rpm-4.4.8.patch
 Patch3:     poldek-0.20-fix-rpmlib-detection.patch
 Patch4:     poldek-0.20-fix-check-detection.patch
 Patch5:     poldek-0.20-fix-format-errors.patch
+Patch6:     poldek-0.20-fix-underlinking.patch
+Patch7:     poldek-0.20-add-missing-header.patch
+Patch8:     poldek-0.20-rpm-4.6-compatibility.patch
 BuildRequires:	bzip2-devel
 BuildRequires:	rpm-devel
 BuildRequires:	openssl-devel
@@ -28,7 +29,6 @@ BuildRequires:	zlib-devel
 BuildRequires:	pcre-devel
 BuildRequires:  ncurses-devel
 BuildRequires:  db4-devel
-BuildRequires:	gettext-devel
 BuildRoot:	%_tmppath/%name-%version-%release-root
 
 %description
@@ -70,17 +70,21 @@ poldek library.
 
 %prep 
 %setup -q
-%patch0 -p0 -b .oldtag
-%patch1 -p0 -b .sourcepackage
-%patch2 -p0 -b .rpm-448
-%patch3 -p1 -b .rpmlib
-%patch4 -p1 -b .check
-%patch5 -p1 -b .format
+%patch0 -p0 -b .oldtag~
+%patch1 -p0 -b .sourcepackage~
+%patch2 -p0 -b .rpm-448~
+%patch3 -p1 -b .rpmlib~
+%patch4 -p1 -b .check~
+%patch5 -p1 -b .format~
+%patch6 -p1 -b .link~
+%patch7 -p1 -b .header~
+%patch8 -p1 -b .rpm46~
 
 %build
 autoreconf -f -i
 %configure2_5x %{?_with_static:--enable-static}
-%{__make} 
+echo "#define _RPM_4_4_COMPAT 1" >> config.h
+%make
 
 %install
 rm -rf %{buildroot}
@@ -162,6 +166,3 @@ rm -rf %{buildroot}
 %_libdir/*.a
 %_libdir/*.la
 %_libdir/*.so
-
-
-
