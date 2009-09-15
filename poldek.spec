@@ -7,7 +7,7 @@
 Summary:	PLD RPM packages management helper tool
 Name:		%name
 Version:	0.20
-Release:	%mkrel 55562
+Release:	%mkrel 55563
 License:	GPLv2
 Group:		System/Configuration/Packaging
 URL:		http://poldek.pld-linux.org/
