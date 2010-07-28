@@ -7,7 +7,7 @@
 Summary:	PLD RPM packages management helper tool
 Name:		%name
 Version:	0.20
-Release:	%mkrel 55563
+Release:	%mkrel 55564
 License:	GPLv2
 Group:		System/Configuration/Packaging
 URL:		http://poldek.pld-linux.org/
@@ -28,7 +28,7 @@ BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
 BuildRequires:	pcre-devel
 BuildRequires:  ncurses-devel
-BuildRequires:  db4.7-devel
+BuildRequires:  db4.8-devel
 BuildRequires:	gettext-devel
 BuildRequires:	libxml2-devel
 BuildRoot:	%_tmppath/%name-%version-%release-root
