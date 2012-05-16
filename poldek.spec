@@ -6,21 +6,12 @@
 
 Summary:	PLD RPM packages management helper tool
 Name:		%name
-Version:	0.20
-Release:	%mkrel 55564
+Version:	0.30
+Release:	1
 License:	GPLv2
 Group:		System/Configuration/Packaging
 URL:		http://poldek.pld-linux.org/
-Source0:	http://poldek.pld-linux.org/download/%{name}-%{version}.tar.bz2
-Patch0:     poldek-0.20-oldtag.patch
-Patch1:     poldek-0.20-sourcepackage.patch
-Patch2:     poldek-rpm-4.4.8.patch
-Patch3:     poldek-0.20-fix-rpmlib-detection.patch
-Patch4:     poldek-0.20-fix-check-detection.patch
-Patch5:     poldek-0.20-fix-format-errors.patch
-Patch6:     poldek-0.20-fix-underlinking.patch
-Patch7:     poldek-0.20-add-missing-header.patch
-Patch8:     poldek-0.20-rpm-4.6-compatibility.patch
+Source0:	http://poldek.pld-linux.org/download/%{name}-%{version}rc5.tar.xz
 BuildRequires:	bzip2-devel
 BuildRequires:	rpm-devel
 BuildRequires:	openssl-devel
@@ -28,7 +19,6 @@ BuildRequires:	readline-devel
 BuildRequires:	zlib-devel
 BuildRequires:	pcre-devel
 BuildRequires:  ncurses-devel
-BuildRequires:  db4.8-devel
 BuildRequires:	gettext-devel
 BuildRequires:	libxml2-devel
 BuildRoot:	%_tmppath/%name-%version-%release-root
@@ -72,20 +62,11 @@ poldek library.
 
 %prep 
 %setup -q
-%patch0 -p0 -b .oldtag~
-%patch1 -p0 -b .sourcepackage~
-%patch2 -p0 -b .rpm-448~
-%patch3 -p1 -b .rpmlib~
-%patch4 -p1 -b .check~
-%patch5 -p1 -b .format~
-%patch6 -p1 -b .link~
-%patch7 -p1 -b .header~
-%patch8 -p1 -b .rpm46~
 
 %build
 autoreconf -f -i
 %configure2_5x %{?_with_static:--enable-static}
-echo "#define _RPM_4_4_COMPAT 1" >> config.h
+
 %make
 
 %install
@@ -136,14 +117,6 @@ rm -rf %{buildroot}
 
 %postun
 %_remove_install_info %name.info
-
-%if %mdkversion < 200900
-%post -n %libname -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %libname -p /sbin/ldconfig
-%endif
 
 %files -f %name.lang
 %defattr(-,root,root)
