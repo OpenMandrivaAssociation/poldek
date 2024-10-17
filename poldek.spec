@@ -10,7 +10,7 @@ Version:	0.30
 Release:	1
 License:	GPLv2
 Group:		System/Configuration/Packaging
-URL:		http://poldek.pld-linux.org/
+URL:		https://poldek.pld-linux.org/
 Source0:	http://poldek.pld-linux.org/download/%{name}-%{version}rc5.tar.xz
 BuildRequires:	bzip2-devel
 BuildRequires:	rpm-devel
