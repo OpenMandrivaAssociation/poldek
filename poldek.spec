@@ -12,6 +12,11 @@ License:	GPLv2
 Group:		System/Configuration/Packaging
 URL:		https://poldek.pld-linux.org/
 Source0:	http://poldek.pld-linux.org/download/%{name}-%{version}rc5.tar.xz
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	bzip2-devel
 BuildRequires:	rpm-devel
 BuildRequires:	openssl-devel
